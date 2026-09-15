@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopTARpe25.Core.Dto;
 using ShopTARpe25.Core.ServiceInterface;
+using ShopTARpe25.Data;
 using ShopTARpe25.Models.Spaceship;
 
 namespace ShopTARpe25.Controllers
@@ -8,18 +9,34 @@ namespace ShopTARpe25.Controllers
     public class SpaceshipController : Controller
     {
         private readonly ISpaceshipServices _spaceshipService;
+        private readonly ShopTARpe25Context _context;
+
+        //peab lisama context
         
         public SpaceshipController
             (
-            ISpaceshipServices spaceshipService
+            ISpaceshipServices spaceshipService,
+            ShopTARpe25Context context
             )
         {
             _spaceshipService = spaceshipService;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var result = _context.Spaceships
+            .Select(x => new SpaceshipIndexViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Classification = x.Classification,
+                BuiltDate = x.BuiltDate,
+                Crew = x.Crew,
+                EnginePower = x.EnginePower
+            });
+
+            return View(result);
         }
 
         //kui kasutaja klikib "Create" nuppu, siis see meetod käivitatakse
