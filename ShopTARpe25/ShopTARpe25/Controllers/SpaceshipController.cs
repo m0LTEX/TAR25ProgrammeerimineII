@@ -5,7 +5,6 @@ using ShopTARpe25.Core.Dto;
 using ShopTARpe25.Core.ServiceInterface;
 using ShopTARpe25.Data;
 using ShopTARpe25.Models.Spaceship;
-using System.Xml.Linq;
 
 namespace ShopTARpe25.Controllers
 {
@@ -47,7 +46,9 @@ namespace ShopTARpe25.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            SpaceshipCreateViewModel vm = new();
+
+            return View(vm);
         }
 
         //kui oled teinud vormi, siis see meetod käivitatakse
@@ -66,7 +67,15 @@ namespace ShopTARpe25.Controllers
                 Classification = vm.Classification,
                 BuiltDate = vm.BuiltDate,
                 Crew = vm.Crew,
-                EnginePower = vm.EnginePower
+                EnginePower = vm.EnginePower,
+                Files = vm.Files,
+                FileToApiDtos = vm.Image
+                    .Select(file => new FileToApiDto
+                {
+                    Id = file.ImageId,
+                    ExistingFilePath = file.FilePath,
+                    SpaceshipId = file.SpaceshipId
+                }).ToArray()
             };
 
             //kutsuda teenuse meetodit, mis salvestab andmed andmebaasi

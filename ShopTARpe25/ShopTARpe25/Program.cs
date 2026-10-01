@@ -15,7 +15,11 @@ namespace ShopTARpe25
             builder.Services.AddControllersWithViews();
 
             // Register Spaceship service
+
+            //See on dependency injection, mis võimaldab meil kasutada teenuseid controllerites
             builder.Services.AddScoped<ISpaceshipServices,SpaceshipServices>();
+            builder.Services.AddScoped<IFileServices, FileServices>();
+
             builder.Services.AddDbContext<ShopTARpe25Context>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
