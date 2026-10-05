@@ -12,12 +12,15 @@ namespace ShopTARpe25.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly ShopTARpe25Context _context;
+        private readonly IFileServices _fileservices;
 
         public SpaceshipServices
             (
+                IFileServices fileServices,
                 ShopTARpe25Context context
             )
         {
+            _fileservices = fileServices;
             _context = context;
         }
         public async Task<Spaceship> Create(SpaceshipDto dto)
@@ -33,6 +36,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             domain.CreatedAt = DateTime.Now;
             domain.ModifiedAt = DateTime.Now;
 
+            _fileservices.FilesToApi(dto, domain);
             //siia tuleb kood, mis salvestab domain
             //objekti andmebaasi
             //tuleb kasutada repository'd, mis

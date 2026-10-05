@@ -22,7 +22,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             _webHost = webHost;
         }
 
-        public void FilesToAPI(SpaceshipDto dto, Spaceship domain)
+        public void FilesToApi(SpaceshipDto dto, Spaceship domain)
         {
             //kindlasti peab ankeedil olema üks fail
             if (dto.Files != null && dto.Files.Count > 0)
@@ -49,15 +49,19 @@ namespace ShopTARpe25.ApplicationServices.Services
                         file.CopyTo(fileStream);
 
                         //domaini teha FileToApi
-                        //FileToApi
+                        FileToApi path = new FileToApi
+                        {
+                            Id = Guid.NewGuid(),
+                            ExistingFilePath = uniqueFileName,
+                            SpaceshipId = domain.Id
+                        };
+
+                        _context.FileToApis.AddAsync(path);
                     }
                 }
             }
         }
 
-        public void FilesToApi(SpaceshipDto dto, Spaceship domain)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
