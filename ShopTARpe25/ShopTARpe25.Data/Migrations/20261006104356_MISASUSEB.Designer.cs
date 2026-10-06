@@ -12,8 +12,8 @@ using ShopTARpe25.Data;
 namespace ShopTARpe25.Data.Migrations
 {
     [DbContext(typeof(ShopTARpe25Context))]
-    [Migration("20261001101033_FileApi")]
-    partial class FileApi
+    [Migration("20261006104356_MISASUSEB")]
+    partial class MISASUSEB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
