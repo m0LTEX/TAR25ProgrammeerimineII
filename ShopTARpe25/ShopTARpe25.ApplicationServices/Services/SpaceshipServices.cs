@@ -12,22 +12,23 @@ namespace ShopTARpe25.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly ShopTARpe25Context _context;
-        private readonly IFileServices _fileservices;
+        private readonly IFileServices _fileServices;
 
         public SpaceshipServices
             (
-                IFileServices fileServices,
-                ShopTARpe25Context context
+                ShopTARpe25Context context,
+                IFileServices fileServices
             )
         {
-            _fileservices = fileServices;
             _context = context;
+            _fileServices = fileServices;
         }
+
         public async Task<Spaceship> Create(SpaceshipDto dto)
         {
             Spaceship domain = new();
 
-            domain.Id = dto.Id;
+            domain.Id = Guid.NewGuid();
             domain.Name = dto.Name;
             domain.Classification = dto.Classification;
             domain.BuiltDate = dto.BuiltDate;
@@ -35,8 +36,11 @@ namespace ShopTARpe25.ApplicationServices.Services
             domain.EnginePower = dto.EnginePower;
             domain.CreatedAt = DateTime.Now;
             domain.ModifiedAt = DateTime.Now;
+            //peame saama File teenuse välja kutsuda,
+            //mis salvestab failid serverisse
+            _fileServices.FilesToApi(dto, domain);
 
-            _fileservices.FilesToApi(dto, domain);
+
             //siia tuleb kood, mis salvestab domain
             //objekti andmebaasi
             //tuleb kasutada repository'd, mis
@@ -50,14 +54,11 @@ namespace ShopTARpe25.ApplicationServices.Services
         }
 
         //siia teha meetod nimega DetailsAsync
-        //see ainult pärib andmed contextist
-
+        //see ainult p'rib andmed contextist
         public async Task<Spaceship> DetailsAsync(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-
 
             return result;
         }
@@ -65,6 +66,7 @@ namespace ShopTARpe25.ApplicationServices.Services
         public async Task<Spaceship> Update(SpaceshipDto dto)
         {
             Spaceship spaceship = new();
+
             spaceship.Id = dto.Id;
             spaceship.Name = dto.Name;
             spaceship.Classification = dto.Classification;
