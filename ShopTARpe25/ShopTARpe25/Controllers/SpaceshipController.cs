@@ -12,15 +12,18 @@ namespace ShopTARpe25.Controllers
     {
         private readonly ISpaceshipServices _spaceshipService;
         private readonly ShopTARpe25Context _context;
+        private readonly IFileServices _fileService;
         //teha constructor et saaks kasutada teenust, mis on
         //defineeritud ISpaceshipServices liideses
         //lisage Context
         public SpaceshipController
             (
+                IFileServices fileServices,
                 ISpaceshipServices spaceshipService,
                 ShopTARpe25Context context
             )
         {
+            _fileService = fileServices;
             _spaceshipService = spaceshipService;
             _context = context;
 
@@ -234,6 +237,26 @@ namespace ShopTARpe25.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(ImageViewModel vm)
+        {
+            var dto = new FileToApiDto()
+            {
+                Id = vm.ImageId
+            };
+
+            //kutsida teenuse meetodit, mis kustutab pildid andmebaasist
+            var image = await _fileService.RemoveImageFromApi(dto);
+
+            if (image == null)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
             return RedirectToAction(nameof(Index));
         }
     }
