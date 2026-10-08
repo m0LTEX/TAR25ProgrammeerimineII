@@ -137,6 +137,15 @@ namespace ShopTARpe25.Controllers
                 return NotFound();
             }
 
+            var images = await _context.FileToApis
+               .Where(x => x.SpaceshipId == id)
+               .Select(y => new ImageViewModel
+               {
+                   FilePath = "/multipleFileUpload/" + y.ExistingFilePath,
+                   ImageId = y.Id,
+                   SpaceshipId = y.SpaceshipId
+               }).ToArrayAsync();
+
             var vm = new SpaceshipUpdateViewModel();
 
             vm.Id = spaceship.Id;
@@ -147,6 +156,7 @@ namespace ShopTARpe25.Controllers
             vm.EnginePower = spaceship.EnginePower;
             vm.CreatedAt = spaceship.CreatedAt;
             vm.ModifiedAt = spaceship.ModifiedAt;
+            vm.Images.AddRange(images);
 
             return View(vm);
         }
