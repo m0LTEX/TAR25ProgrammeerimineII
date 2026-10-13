@@ -68,16 +68,16 @@ namespace ShopTARpe25.ApplicationServices.Services
 
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
-            //kui on vaja kasutada fail, siis tuleb see üles leida
+            //kui on vaja kustutada fail, siis tuleb see üles leida
             var imageId = await _context.FileToApis
                 .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-            //kus asuvad failid, mis hakatakse kasutama
-            var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
+            //kus asuvad failid, mida hakatakse kustutama
+            var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\" 
                 + imageId.ExistingFilePath;
 
             //kui fail on olemas, siis kustuta see
-            if (File.Exists(filePath)) 
+            if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
@@ -86,6 +86,27 @@ namespace ShopTARpe25.ApplicationServices.Services
             await _context.SaveChangesAsync();
 
             return imageId;
+        }
+
+        public async Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dto)
+        {
+            foreach (var image in dto)
+            {
+                var imageId = await _context.FileToApis
+                    .FirstOrDefaultAsync(x => x.Id == image.Id);
+
+                var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
+                    + imageId.ExistingFilePath;
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+                _context.FileToApis.Remove(imageId);
+                await _context.SaveChangesAsync();
+            }
+
+            return null;
         }
     }
 }
