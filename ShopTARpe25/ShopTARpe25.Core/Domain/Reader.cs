@@ -1,15 +1,9 @@
 ﻿namespace ShopTARpe25.Core.Domain
 {
-    public class Spaceship
+    public class Reader
     {
-        public Guid? Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Classification { get; set; } = string.Empty;
-        public DateTime? BuiltDate { get; set; }
-        public int? Crew { get; set; }
-        public int? EnginePower { get; set; }
-
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? ModifiedAt { get; set; }
+        public Guid Id { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
     }
 }
