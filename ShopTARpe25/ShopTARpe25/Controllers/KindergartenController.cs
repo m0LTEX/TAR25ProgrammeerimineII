@@ -12,13 +12,16 @@ namespace ShopTARpe25.Controllers
     {
         private readonly IKindergartenServices _kindergartenService;
         private readonly ShopTARpe25Context _context;
+        private readonly IFileServices _fileServices;
 
         public KindergartenController(
             IKindergartenServices kindergartenService,
-            ShopTARpe25Context context)
+            ShopTARpe25Context context,
+            IFileServices fileServices)
         {
             _kindergartenService = kindergartenService;
             _context = context;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -57,7 +60,6 @@ namespace ShopTARpe25.Controllers
             };
 
             await _kindergartenService.Create(dto);
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -117,6 +119,16 @@ namespace ShopTARpe25.Controllers
                 UpdatedAt = kindergarten.UpdatedAt
             };
 
+            vm.FileToApiDtos = await _context.FileToApis
+                .Where(x => x.KindergartenId == id)
+                .Select(x => new FilesToApiDto
+                {
+                    Id = x.Id,
+                    ExistingFilePath = x.ExistingFilePath,
+                    KindergartenId = x.KindergartenId
+                })
+                .ToListAsync();
+
             return View(vm);
         }
 
@@ -145,6 +157,27 @@ namespace ShopTARpe25.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveImage(Guid imageId, Guid kindergartenId)
+        {
+            var image = await _context.FileToApis
+                .FirstOrDefaultAsync(x => x.Id == imageId &&
+                                          x.KindergartenId == kindergartenId);
+
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            await _fileServices.RemoveImageFromApi(new FilesToApiDto
+            {
+                Id = imageId
+            });
+
+            return RedirectToAction(nameof(Update), new { id = kindergartenId });
+        }
+
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -165,6 +198,16 @@ namespace ShopTARpe25.Controllers
                 CreatedAt = kindergarten.CreatedAt,
                 UpdatedAt = kindergarten.UpdatedAt
             };
+
+            vm.FileToApiDtos = await _context.FileToApis
+                .Where(x => x.KindergartenId == id)
+                .Select(x => new FilesToApiDto
+                {
+                    Id = x.Id,
+                    ExistingFilePath = x.ExistingFilePath,
+                    KindergartenId = x.KindergartenId
+                })
+                .ToListAsync();
 
             return View(vm);
         }

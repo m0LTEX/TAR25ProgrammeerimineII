@@ -15,5 +15,6 @@ namespace ShopTARpe25.Models.Kindergarten
         public DateTime? UpdatedAt { get; set; }
 
         public List<IFormFile> Files { get; set; } = new();
+        public List<ShopTARpe25.Core.Dto.FilesToApiDto> FileToApiDtos { get; set; } = new();
     }
 }
