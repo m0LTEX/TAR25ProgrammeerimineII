@@ -24,9 +24,9 @@ namespace ShopTARpe25.ApplicationServices.Services
             _fileServices = fileServices;
         }
 
-        public async Task<Spaceship> Create(SpaceshipDto dto)
+        public async Task<Reader> Create(SpaceshipDto dto)
         {
-            Spaceship domain = new();
+            Reader domain = new();
 
             domain.Id = Guid.NewGuid();
             domain.Name = dto.Name;
@@ -55,7 +55,7 @@ namespace ShopTARpe25.ApplicationServices.Services
 
         //siia teha meetod nimega DetailsAsync
         //see ainult p'rib andmed contextist
-        public async Task<Spaceship> DetailsAsync(Guid id)
+        public async Task<Reader> DetailsAsync(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -63,9 +63,9 @@ namespace ShopTARpe25.ApplicationServices.Services
             return result;
         }
 
-        public async Task<Spaceship> Update(SpaceshipDto dto)
+        public async Task<Reader> Update(SpaceshipDto dto)
         {
-            Spaceship spaceship = new();
+            Reader spaceship = new();
 
             spaceship.Id = dto.Id;
             spaceship.Name = dto.Name;
@@ -83,7 +83,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             return spaceship;
         }
 
-        public async Task<Spaceship> Delete(Guid id)
+        public async Task<Reader> Delete(Guid id)
         {
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);

@@ -23,7 +23,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             _webHost = webHost;
         }
 
-        public void FilesToApi(SpaceshipDto dto, Spaceship domain)
+        public void FilesToApi(SpaceshipDto dto, Reader domain)
         {
             //kindlasti peab ankeedil olema üks fail
             if (dto.Files != null && dto.Files.Count > 0)
@@ -51,7 +51,7 @@ namespace ShopTARpe25.ApplicationServices.Services
                         file.CopyTo(fileStream);
 
                         //domaini teha FileToApi
-                        FileToApi path = new FileToApi
+                        Book path = new Book
                         {
                             //tuleb ära mappida 
                             //domain ja ??
@@ -66,7 +66,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             }
         }
 
-        public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
+        public async Task<Book> RemoveImageFromApi(FileToApiDto dto)
         {
             //kui on vaja kustutada fail, siis tuleb see üles leida
             var imageId = await _context.FileToApis
@@ -88,7 +88,7 @@ namespace ShopTARpe25.ApplicationServices.Services
             return imageId;
         }
 
-        public async Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dto)
+        public async Task<List<Book>> RemoveImagesFromApi(FileToApiDto[] dto)
         {
             foreach (var image in dto)
             {
