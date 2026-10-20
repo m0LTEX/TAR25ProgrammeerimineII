@@ -1,51 +1,40 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using ShopTARpe25.Core.Domain;
 using ShopTARpe25.Core.Dto;
 using ShopTARpe25.Core.ServiceInterface;
 using ShopTARpe25.Data;
 
-
 namespace ShopTARpe25.ApplicationServices.Services
 {
-
-
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly ShopTARpe25Context _context;
         private readonly IFileServices _fileServices;
 
-        public SpaceshipServices
-            (
-                ShopTARpe25Context context,
-                IFileServices fileServices
-            )
+        public SpaceshipServices(
+            ShopTARpe25Context context,
+            IFileServices fileServices)
         {
             _context = context;
             _fileServices = fileServices;
         }
 
-        public async Task<Reader> Create(SpaceshipDto dto)
+        public async Task<Spaceship> Create(SpaceshipDto dto)
         {
-            Reader domain = new();
+            Spaceship domain = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = dto.Name,
+                Classification = dto.Classification,
+                BuiltDate = dto.BuiltDate,
+                Crew = dto.Crew,
+                EnginePower = dto.EnginePower,
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now
+            };
 
-            domain.Id = Guid.NewGuid();
-            domain.Name = dto.Name;
-            domain.Classification = dto.Classification;
-            domain.BuiltDate = dto.BuiltDate;
-            domain.Crew = dto.Crew;
-            domain.EnginePower = dto.EnginePower;
-            domain.CreatedAt = DateTime.Now;
-            domain.ModifiedAt = DateTime.Now;
-            //peame saama File teenuse välja kutsuda,
-            //mis salvestab failid serverisse
             _fileServices.FilesToApi(dto, domain);
-
-
-            //siia tuleb kood, mis salvestab domain
-            //objekti andmebaasi
-            //tuleb kasutada repository'd, mis
-            //on defineeritud Core projektis
-            //konstruktori kaudu tuleb injectida repository
 
             await _context.Spaceships.AddAsync(domain);
             await _context.SaveChangesAsync();
@@ -53,56 +42,58 @@ namespace ShopTARpe25.ApplicationServices.Services
             return domain;
         }
 
-        //siia teha meetod nimega DetailsAsync
-        //see ainult p'rib andmed contextist
-        public async Task<Reader> DetailsAsync(Guid id)
+        public async Task<Spaceship> DetailsAsync(Guid id)
         {
-            var result = await _context.Spaceships
+            return await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
-
-            return result;
         }
 
-        public async Task<Reader> Update(SpaceshipDto dto)
+        public async Task<Spaceship> Update(SpaceshipDto dto)
         {
-            Reader spaceship = new();
+            var spaceship = await _context.Spaceships
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-            spaceship.Id = dto.Id;
+            if (spaceship == null)
+                return null;
+
             spaceship.Name = dto.Name;
             spaceship.Classification = dto.Classification;
             spaceship.BuiltDate = dto.BuiltDate;
             spaceship.Crew = dto.Crew;
             spaceship.EnginePower = dto.EnginePower;
-            spaceship.CreatedAt = dto.CreatedAt;
             spaceship.ModifiedAt = DateTime.Now;
+
             _fileServices.FilesToApi(dto, spaceship);
 
-            _context.Spaceships.Update(spaceship);
             await _context.SaveChangesAsync();
 
             return spaceship;
         }
 
-        public async Task<Reader> Delete(Guid id)
+        public async Task<Spaceship> Delete(Guid id)
         {
-            var result = await _context.Spaceships
+            var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (spaceship == null)
+                return null;
 
             var images = await _context.FileToApis
                 .Where(x => x.SpaceshipId == id)
-                .Select(y => new FileToApiDto
+                .Select(x => new FileToApiDto
                 {
-                    Id = y.Id,
-                    SpaceshipId = y.SpaceshipId,
-                    ExistingFilePath = y.ExistingFilePath,
-                }).ToArrayAsync();
+                    Id = x.Id,
+                    SpaceshipId = x.SpaceshipId,
+                    ExistingFilePath = x.ExistingFilePath
+                })
+                .ToArrayAsync();
 
-            //peame kutsuma meetodi esile, mis kustutab failid serverist
             await _fileServices.RemoveImagesFromApi(images);
-            _context.Spaceships.Remove(result);
+
+            _context.Spaceships.Remove(spaceship);
             await _context.SaveChangesAsync();
 
-            return result;
+            return spaceship;
         }
     }
 }

@@ -1,0 +1,59 @@
+﻿@model List<ShopTARpe25.Core.Domain.Reader>
+
+@{
+    ViewData["Title"] = "Lugejad";
+}
+
+<h1>Lugejad</h1>
+
+@if (TempData["ReaderError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ReaderError"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Lisa lugeja</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group mb-3">
+        <input type="text"
+               name="search"
+               value="@ViewBag.Search"
+               class="form-control"
+               placeholder="Otsi nime või e-posti järgi" />
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Otsi</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Tühjenda</a>
+</form>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Nimi</th>
+            <th>E-post</th>
+            <th>Tegevused</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reader in Model)
+        {
+            <tr>
+                <td>@reader.FullName</td>
+                <td>@reader.Email</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@reader.Id"
+                       class="btn btn-warning btn-sm">Muuda</a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@reader.Id"
+                       class="btn btn-danger btn-sm">Kustuta</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+﻿@model ShopTARpe25.Core.Domain.Loan
+
+@{
+    ViewData["Title"] = "Lisa laenutus";
+}
+
+<h1>Lisa laenutus</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label asp-for="BookId" class="form-label">Raamat</label>
+        <select asp-for="BookId"
+                asp-items="ViewBag.Books"
+                class="form-control">
+            <option value="">Vali raamat</option>
+        </select>
+        <span asp-validation-for="BookId"
+              class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="ReaderId" class="form-label">Lugeja</label>
+        <select asp-for="ReaderId"
+                asp-items="ViewBag.Readers"
+                class="form-control">
+            <option value="">Vali lugeja</option>
+        </select>
+        <span asp-validation-for="ReaderId"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvesta</button>
+    <a asp-action="Index" class="btn btn-secondary">Tagasi</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,62 @@
+﻿@model List<ShopTARpe25.Core.Domain.Loan>
+
+@{
+    ViewData["Title"] = "Laenutused";
+}
+
+<h1>Laenutused</h1>
+
+@if (TempData["LoanError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["LoanError"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Lisa laenutus</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Raamat</th>
+            <th>Lugeja</th>
+            <th>Laenutamise kuupäev</th>
+            <th>Tagastamise kuupäev</th>
+            <th>Tegevused</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.Book?.Title</td>
+                <td>@loan.Reader?.FullName</td>
+                <td>@loan.LoanDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>
+                    @(loan.ReturnDate.HasValue
+                        ? loan.ReturnDate.Value.ToString("dd.MM.yyyy HH:mm")
+                        : "Tagastamata")
+                </td>
+                <td>
+                    @if (loan.ReturnDate == null)
+                    {
+                        <form asp-action="ReturnBook"
+                              asp-route-id="@loan.Id"
+                              method="post">
+                            <button type="submit"
+                                    class="btn btn-success btn-sm">
+                                Tagasta raamat
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-success">Tagastatud</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

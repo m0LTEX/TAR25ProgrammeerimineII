@@ -1,0 +1,28 @@
+﻿@model ShopTARpe25.Core.Domain.Reader
+
+@{
+    ViewData["Title"] = "Lisa lugeja";
+}
+
+<h1>Lisa lugeja</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="FullName" class="form-label">Nimi</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="form-label">E-post</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvesta</button>
+    <a asp-action="Index" class="btn btn-secondary">Tagasi</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

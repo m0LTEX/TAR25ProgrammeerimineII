@@ -1,0 +1,76 @@
+﻿
+@model List<ShopTARpe25.Core.Domain.Book>
+
+<h1>Raamatukogu</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        Lisa raamat
+    </a>
+</p>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="mb-2">
+        <label>Raamatu pealkiri</label>
+        <input name="title"
+               value="@ViewBag.TitleSearch"
+               class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Avaldamise aasta</label>
+        <input name="year"
+               type="number"
+               value="@ViewBag.YearSearch"
+               class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Saadavus</label>
+        <select name="isAvailable" class="form-select">
+            <option value="">Kõik raamatud</option>
+            <option value="true"
+                    selected="@(ViewBag.AvailabilitySearch is true)">
+                Saadaval
+            </option>
+            <option value="false"
+                    selected="@(ViewBag.AvailabilitySearch is false)">
+                Välja laenutatud
+            </option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Otsi
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Näita kõiki
+    </a>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Pealkiri</th>
+            <th>Autor</th>
+            <th>Aasta</th>
+            <th>Saadavus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.PublishedYear</td>
+                <td>
+                    @(book.IsAvailable
+                        ? "Saadaval"
+                        : "Välja laenutatud")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,23 @@
+﻿
+@model ShopTARpe25.Core.Domain.Book
+
+<h1>Lisa uus raamat</h1>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="Title">Raamatu pealkiri</label>
+        <input asp-for="Title" required />
+    </div>
+
+    <div>
+        <label asp-for="Author">Autor</label>
+        <input asp-for="Author" required />
+    </div>
+
+    <div>
+        <label asp-for="PublishedYear">Avaldamise aasta</label>
+        <input asp-for="PublishedYear" type="number" required />
+    </div>
+
+    <button type="submit">Salvesta raamat</button>
+</form>
