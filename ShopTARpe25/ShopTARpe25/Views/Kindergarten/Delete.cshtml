@@ -1,73 +1,78 @@
 ﻿@model ShopTARpe25.Models.Kindergarten.KindergartenDeleteViewModel
 
-<h1>Delete</h1>
+@{
+    ViewData["Title"] = "Delete Kindergarten";
+}
 
-<div>
-    <h4>Kindergarten</h4>
-    <hr />
+<div class="kg-form-page">
+    <div class="kg-form-heading">
+        <span class="kg-label">KINDERGARTEN MANAGEMENT</span>
+        <h1>Delete kindergarten</h1>
+        <p>Review the information before deleting this group.</p>
+    </div>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.Id)
+    <div class="kg-delete-card">
+        <div class="kg-delete-warning">!</div>
+
+        <h2>Are you sure?</h2>
+        <p class="kg-delete-intro">
+            You are about to delete this kindergarten group.
+            This action may not be reversible.
+        </p>
+
+        <div class="kg-detail-info">
+            <div>
+                <span>Group name</span>
+                <strong>@Model.GroupName</strong>
+            </div>
+            <div>
+                <span>Children count</span>
+                <strong>@Model.ChildrenCount</strong>
+            </div>
+            <div>
+                <span>Kindergarten name</span>
+                <strong>@Model.KindergartenName</strong>
+            </div>
+            <div>
+                <span>Teacher name</span>
+                <strong>@Model.TeacherName</strong>
+            </div>
+            <div>
+                <span>Created at</span>
+                <strong>@Model.CreatedAt</strong>
+            </div>
+            <div>
+                <span>Updated at</span>
+                <strong>@Model.UpdatedAt</strong>
+            </div>
         </div>
-    </dl>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.GroupName)
-        </div>
-    </dl>
+        @if (Model.FileToApiDtos != null && Model.FileToApiDtos.Any())
+        {
+            <h3 class="kg-delete-images-title">Saved photos</h3>
+            <div class="kg-image-grid">
+                @foreach (var image in Model.FileToApiDtos)
+                {
+                    <div class="kg-saved-image">
+                        <img src="~/multipleFileUpload/@image.ExistingFilePath"
+                             alt="Kindergarten photo" />
+                    </div>
+                }
+            </div>
+        }
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.ChildrenCount)
-        </div>
-    </dl>
+        <form asp-action="DeleteConfirmation" asp-controller="Kindergarten" method="post">
+            <input type="hidden" asp-for="Id" />
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="KindergartenName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.KindergartenName)
-        </div>
-    </dl>
+            <div class="kg-form-buttons">
+                <button type="submit" class="kg-confirm-delete">
+                    Delete kindergarten
+                </button>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.TeacherName)
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </div>
-    </dl>
-
-    @foreach (var images in Model.FileToApiDtos)
-    {
-        <img src="~/multipleFileUpload/@images.ExistingFilePath"
-             alt="Kindergarten image"
-             style="max-width: 300px;" />
-        <br />
-    }
-
-    <hr />
-
-    <form asp-action="DeleteConfirmation">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" asp-controller="Kindergarten" class="btn btn-success">Back</a>
-    </form>
+                <a asp-action="Index" asp-controller="Kindergarten" class="kg-back">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
 </div>

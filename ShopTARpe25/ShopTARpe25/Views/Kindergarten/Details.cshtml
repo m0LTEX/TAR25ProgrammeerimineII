@@ -1,67 +1,91 @@
 ﻿@model ShopTARpe25.Models.Kindergarten.KindergartenDetailsViewModel
 
-<h1>Details</h1>
+@{
+    ViewData["Title"] = "Kindergarten Details";
+}
 
-<div>
-    <h4>Kindergarten</h4>
-    <hr />
+<div class="kg-form-page">
+    <div class="kg-form-heading">
+        <span class="kg-label">OUR KINDERGARTEN</span>
+        <h1>Kindergarten details</h1>
+        <p>Information about the selected group.</p>
+    </div>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.Id)
+    <div class="kg-detail-layout">
+        <div class="kg-detail-card">
+            <div class="kg-detail-banner">🌿</div>
+
+            <h2>@Model.GroupName</h2>
+            <p class="kg-detail-subtitle">@Model.KindergartenName</p>
+
+            <div class="kg-detail-info">
+                <div>
+                    <span>Group name</span>
+                    <strong>@Model.GroupName</strong>
+                </div>
+                <div>
+                    <span>Children count</span>
+                    <strong>@Model.ChildrenCount</strong>
+                </div>
+                <div>
+                    <span>Kindergarten name</span>
+                    <strong>@Model.KindergartenName</strong>
+                </div>
+                <div>
+                    <span>Teacher name</span>
+                    <strong>@Model.TeacherName</strong>
+                </div>
+                <div>
+                    <span>Created at</span>
+                    <strong>@Model.CreatedAt</strong>
+                </div>
+                <div>
+                    <span>Updated at</span>
+                    <strong>@Model.UpdatedAt</strong>
+                </div>
+                <div>
+                    <span>Record ID</span>
+                    <strong class="kg-id">@Model.Id</strong>
+                </div>
+            </div>
+
+            <div class="kg-form-buttons">
+                <a asp-action="Update" asp-route-id="@Model.Id" class="kg-create">
+                    Update details
+                </a>
+                <a asp-action="Index" class="kg-back">Back to list</a>
+            </div>
         </div>
-    </dl>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="GroupName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.GroupName)
-        </div>
-    </dl>
+        <aside class="kg-detail-side">
+            <div class="kg-detail-photo"></div>
+            <div class="kg-form-side-text">
+                <span>🌼</span>
+                <h2>A place to learn and grow</h2>
+                <p>Kindergarten group information in one place.</p>
+            </div>
+        </aside>
+    </div>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="ChildrenCount" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.ChildrenCount)
-        </div>
-    </dl>
+    <section class="kg-existing-images">
+        <h2>Kindergarten photos</h2>
+        <p>Images saved for this group.</p>
 
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="KindergartenName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.KindergartenName)
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="TeacherName" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.TeacherName)
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </div>
-    </dl>
-
-    <dl class="row">
-        <div class="form-group row">
-            <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </div>
-    </dl>
-
-    @foreach (var images in Model.FileToApiDtos)
-    {
-        <img src="~/multipleFileUpload/@images.ExistingFilePath"
-             alt="Kindergarten image"
-             style="max-width: 300px;" />
-        <br />
-    }
-
-    <a asp-action="Index" asp-controller="Kindergarten" class="btn btn-danger">Back to List</a>
+        @if (Model.FileToApiDtos != null && Model.FileToApiDtos.Any())
+        {
+            <div class="kg-image-grid">
+                @foreach (var image in Model.FileToApiDtos)
+                {
+                    <div class="kg-saved-image">
+                        <img src="~/multipleFileUpload/@image.ExistingFilePath"
+                             alt="Kindergarten photo" />
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="kg-no-images">No uploaded photos yet.</p>
+        }
+    </section>
 </div>
