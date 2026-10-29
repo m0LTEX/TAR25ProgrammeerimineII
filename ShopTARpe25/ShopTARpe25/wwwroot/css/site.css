@@ -241,7 +241,7 @@
     }
 }
 
-/* HOME PAGE */
+/* Esileht */
 
 .home-page {
     position: relative;
@@ -376,7 +376,7 @@
     font-size: 19px;
 }
 
-/* PRIVACY PAGE */
+/* Privacy leht */
 
 .privacy-page {
     max-width: 850px;
@@ -469,3 +469,99 @@
             font-size: 30px;
         }
 }
+
+
+
+.create-page {
+    max-width: 850px;
+}
+
+/*Tausta pilt*/
+body {
+    background-image: url(https://www.nasa.gov/wp-content/uploads/2026/02/iss072e695136orig.jpg);
+    
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Pealkiri */
+.create-header h1 {
+    color: #9d174d;
+}
+
+.create-header p {
+    color: #9f7a8b;
+}
+
+/* Raketi ikooni taust */
+.create-icon {
+    background: #fce7f3;
+    color: #db2777;
+    border: 1px solid #fbcfe8;
+    border-radius: 18px;
+}
+
+/* Valge vormikaart roosa varjuga */
+.create-card {
+    background: #ffffff;
+    border: 1px solid #fbcfe8;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(190, 24, 93, 0.08);
+}
+
+/* Alapealkiri */
+.card-heading h2 {
+    color: #831843;
+}
+
+/* Sisestusväljad */
+.form-field .form-control {
+    border-color: #f3c8da;
+    background-color: #fffdfd;
+    border-radius: 10px;
+}
+
+    .form-field .form-control:focus {
+        border-color: #ec4899;
+        box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.13);
+    }
+
+/* Roosa Create-nupp */
+.btn-create {
+    background: #ec4899;
+    border-color: #ec4899;
+    color: #ffffff;
+    border-radius: 10px;
+}
+
+    .btn-create:hover {
+        background: #db2777;
+        border-color: #db2777;
+        color: #ffffff;
+    }
+
+/* Tagasi-nupp */
+.btn-back {
+    background: #fff1f5;
+    color: #9d174d;
+    border: 1px solid #fbcfe8;
+    border-radius: 10px;
+}
+
+    .btn-back:hover {
+        background: #fce7f3;
+        color: #831843;
+    }
+
+/* Vormikaardi eraldusjoon */
+.form-actions {
+    border-top-color: #fce7f3;
+}
+
+/* Väiksematel ekraanidel */
+@media (max-width: 600px) {
+    .create-card {
+        border-radius: 16px;
+    }
+}
+
