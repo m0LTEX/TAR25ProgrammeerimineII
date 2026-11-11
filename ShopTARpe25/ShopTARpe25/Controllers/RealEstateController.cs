@@ -27,7 +27,7 @@ namespace ShopTARpe25.Controllers
             _fileService = fileService;
         }
 
-        // INDEX
+        
         public IActionResult Index()
         {
             var result = _context.Realestates
@@ -44,7 +44,7 @@ namespace ShopTARpe25.Controllers
             return View(result);
         }
 
-        // CREATE GET
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -53,7 +53,7 @@ namespace ShopTARpe25.Controllers
             return View("CreateUpdate", vm);
         }
 
-        // CREATE POST
+       
         [HttpPost]
         public async Task<IActionResult> Create(RealEstateCreateUpdateViewModel vm)
         {
@@ -64,7 +64,7 @@ namespace ShopTARpe25.Controllers
                 Address = vm.Address,
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
-                Files = vm.Files
+               
             };
 
             await _realestateService.Create(dto);
@@ -72,7 +72,7 @@ namespace ShopTARpe25.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // DETAILS
+        
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
@@ -105,12 +105,12 @@ namespace ShopTARpe25.Controllers
                 ModifiedAt = realEstate.ModifiedAt
             };
 
-            vm.Images.AddRange(images);
+            
 
             return View(vm);
         }
 
-        // UPDATE GET
+        
         [HttpGet]
         public async Task<IActionResult> Update(Guid id)
         {
@@ -143,12 +143,12 @@ namespace ShopTARpe25.Controllers
                 ModifiedAt = realEstate.ModifiedAt
             };
 
-            vm.Images.AddRange(images);
+            
 
             return View("CreateUpdate", vm);
         }
 
-        // UPDATE POST
+        
         [HttpPost]
         public async Task<IActionResult> Update(RealEstateCreateUpdateViewModel vm)
         {
@@ -159,7 +159,7 @@ namespace ShopTARpe25.Controllers
                 Address = vm.Address,
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
-                Files = vm.Files
+                
             };
 
             await _realestateService.Update(dto);
@@ -167,7 +167,7 @@ namespace ShopTARpe25.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // DELETE GET
+       
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -200,8 +200,6 @@ namespace ShopTARpe25.Controllers
                 ModifiedAt = realEstate.ModifiedAt
             };
 
-            vm.Images.AddRange(images);
-
             return View(vm);
         }
 
@@ -210,20 +208,6 @@ namespace ShopTARpe25.Controllers
         public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             await _realestateService.Delete(id);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // REMOVE IMAGE
-        [HttpPost]
-        public async Task<IActionResult> RemoveImage(ImageViewModel vm)
-        {
-            var dto = new FileToApiDto
-            {
-                Id = vm.ImageId
-            };
-
-            await _fileService.RemoveImageFromApi(dto);
 
             return RedirectToAction(nameof(Index));
         }

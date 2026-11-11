@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using ShopTARpe25.ApplicationServices.Services;
 using ShopTARpe25.Core.ServiceInterface;
@@ -17,6 +18,7 @@ namespace ShopTARpe25
             //See on dependency injection, mis võimaldab meil kasutada teenuseid controllerites
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
+            builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
 
             //selleks, et tuleb installida Microsoft.EntityFrameworkCore.SqlServer
             //ja Microsoft.EntityFrameworkCore.Tools NuGet paketid

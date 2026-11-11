@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model ShopTARpe25.Models.RealEstate.RealEstateDetailsViewModel
+
+<h1>Details</h1>
+
+<div>
+    <h4>RealEstate</h4>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">Id</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt class="col-sm-2">Area</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Area)</dd>
+
+        <dt class="col-sm-2">Address</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+
+        <dt class="col-sm-2">RoomNumber</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.RoomNumber)</dd>
+
+        <dt class="col-sm-2">BuildingType</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.BuildingType)</dd>
+
+        <dt class="col-sm-2">CreatedAt</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.CreatedAt)</dd>
+
+        <dt class="col-sm-2">ModifiedAt</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd>
+    </dl>
+
+    <hr />
+</div>
+
+<div class="form-group">
+    <a asp-action="Index"
+           asp-controller="RealEstate"
+           class="btn btn-primary btn-lg btn-outline-dark">
+        Back to list
+    </a>
+</div>
