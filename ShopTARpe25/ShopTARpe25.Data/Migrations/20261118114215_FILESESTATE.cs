@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShopTARpe25.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class FILESESTATE : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,25 +17,12 @@ namespace ShopTARpe25.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExistingFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpaceshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FileToApis", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FileToDatabases",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    SpaceshipId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RealEstateId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FileToDatabases", x => x.Id);
+                    table.PrimaryKey("PK_FileToApis", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,9 +66,6 @@ namespace ShopTARpe25.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "FileToApis");
-
-            migrationBuilder.DropTable(
-                name: "FileToDatabases");
 
             migrationBuilder.DropTable(
                 name: "Realestates");
