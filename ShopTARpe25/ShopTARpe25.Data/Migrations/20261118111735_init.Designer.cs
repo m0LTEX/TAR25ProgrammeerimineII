@@ -12,15 +12,15 @@ using ShopTARpe25.Data;
 namespace ShopTARpe25.Data.Migrations
 {
     [DbContext(typeof(ShopTARpe25Context))]
-    [Migration("20261112112744_FileDatabase")]
-    partial class FileDatabase
+    [Migration("20261118111735_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
