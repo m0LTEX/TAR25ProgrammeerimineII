@@ -1,6 +1,4 @@
-﻿using ShopTARpe25.Models.Spaceship;
-
-namespace ShopTARpe25.Models.RealEstate
+﻿namespace ShopTARpe25.Models.RealEstate
 {
     public class RealEstateDeleteViewModel
     {
@@ -12,7 +10,5 @@ namespace ShopTARpe25.Models.RealEstate
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-
-        
     }
 }

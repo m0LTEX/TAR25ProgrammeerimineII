@@ -4,9 +4,8 @@
     {
         public Guid Id { get; set; }
 
+        //see muutuja hakkab näitama, kus asub meie file
         public string? ExistingFilePath { get; set; }
-
         public Guid? SpaceshipId { get; set; }
-        public Guid? RealEstateId { get; set; }
     }
 }

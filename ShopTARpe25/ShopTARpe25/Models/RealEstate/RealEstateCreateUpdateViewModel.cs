@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using ShopTARpe25.Models.Spaceship;
-
-namespace ShopTARpe25.Models.RealEstate
+﻿namespace ShopTARpe25.Models.RealEstate
 {
     public class RealEstateCreateUpdateViewModel
     {
@@ -11,9 +8,11 @@ namespace ShopTARpe25.Models.RealEstate
         public int RoomNumber { get; set; }
         public string? BuildingType { get; set; }
 
+        public List<IFormFile>? Files { get; set; }
+        public List<RealEstateImageViewModel> Image { get; set; }
+            = [];
+
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-
-        
     }
 }

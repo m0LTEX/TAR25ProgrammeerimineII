@@ -5,37 +5,62 @@
 <div>
     <h4>RealEstate</h4>
     <hr />
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.Id)
+        </div>
+    </dl>
 
     <dl class="row">
-        <dt class="col-sm-2">Id</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
+        <div class="form-group row">
+            <label asp-for="Area" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.Area)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">Area</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Area)</dd>
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="Address" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.Address)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">Address</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Address)</dd>
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="RoomNumber" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.RoomNumber)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">RoomNumber</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.RoomNumber)</dd>
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="BuildingType" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.BuildingType)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">BuildingType</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.BuildingType)</dd>
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">CreatedAt</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.CreatedAt)</dd>
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ModifiedAt" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(model => model.ModifiedAt)
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">ModifiedAt</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd>
+    <dl>
+        @foreach (var images in Model.Images)
+        {
+            <partial name="_Images" model="images" />
+        }
     </dl>
 
     <hr />
-</div>
-
-<div class="form-group">
-    <a asp-action="Index"
-           asp-controller="RealEstate"
-           class="btn btn-primary btn-lg btn-outline-dark">
-        Back to list
-    </a>
+    <a asp-action="Index" asp-controller="realEstate" class="btn btn-danger">Back</a>
 </div>

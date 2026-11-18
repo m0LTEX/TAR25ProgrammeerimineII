@@ -1,10 +1,10 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using ShopTARpe25.Core.Domain;
 using ShopTARpe25.Core.Dto;
 using ShopTARpe25.Core.ServiceInterface;
 using ShopTARpe25.Data;
+
 
 namespace ShopTARpe25.ApplicationServices.Services
 {
@@ -14,145 +14,127 @@ namespace ShopTARpe25.ApplicationServices.Services
         private readonly IHostEnvironment _webHost;
 
         public FileServices
-        (
-            ShopTARpe25Context context,
-            IHostEnvironment webHost
-        )
+            (
+                ShopTARpe25Context context,
+                IHostEnvironment webHost
+            )
         {
             _context = context;
             _webHost = webHost;
         }
 
-        // SPACESHIP
         public void FilesToApi(SpaceshipDto dto, Spaceship domain)
         {
-            SaveFiles(dto.Files, domain.Id, null);
-        }
-
-        // REALESTATE
-        public void FilesToApi(RealEstateDto dto, RealEstate domain)
-        {
-            SaveFiles(dto.Files, null, domain.Id);
-        }
-
-        // COMMON METHOD FOR SAVING FILES
-        private void SaveFiles(
-            IEnumerable<Microsoft.AspNetCore.Http.IFormFile>? files,
-            Guid? spaceshipId,
-            Guid? realEstateId)
-        {
-            if (files == null)
+            //kindlasti peab ankeedil olema üks fail
+            if (dto.Files != null && dto.Files.Count > 0)
             {
-                return;
-            }
-
-            string uploadsFolder = Path.Combine(
-                _webHost.ContentRootPath,
-                "wwwroot",
-                "multipleFileUpload"
-            );
-
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            foreach (var file in files)
-            {
-                if (file.Length <= 0)
+                //kui ei ole wwwroot-s multipleFileUpload directoryt
+                if (!Directory.Exists(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"))
                 {
-                    continue;
+                    //, siis tee directory wwwrooti alla
+                    Directory.CreateDirectory(_webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\");
                 }
 
-                string uniqueFileName =
-                    Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
-
-                string filePath = Path.Combine(
-                    uploadsFolder,
-                    uniqueFileName
-                );
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                foreach (var file in dto.Files)
                 {
-                    file.CopyTo(fileStream);
+                    //meil on vaja teha muutuja nimega uploadsFolder.
+                    //sinna muutuja taha on vaja Path kombineerida
+                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
+                    //igale failile unikaalne Guid selle nime ette
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    //iga kord, kui faili laed ülesse, siis tehakse see väikesteks 
+                    //tükkideks
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+
+                        //domaini teha FileToApi
+                        FileToApi path = new FileToApi
+                        {
+                            //tuleb ära mappida 
+                            //domain ja ??
+                            Id = Guid.NewGuid(),
+                            ExistingFilePath = uniqueFileName,
+                            SpaceshipId = domain.Id
+                        };
+
+                        _context.FileToApis.AddAsync(path);
+                    }
                 }
-
-                FileToApi path = new FileToApi
-                {
-                    Id = Guid.NewGuid(),
-                    ExistingFilePath = uniqueFileName,
-                    SpaceshipId = spaceshipId,
-                    RealEstateId = realEstateId
-                };
-
-                _context.FileToApis.Add(path);
             }
         }
 
-        // REMOVE ONE IMAGE
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
-            var image = await _context.FileToApis
+            //kui on vaja kustutada fail, siis tuleb see üles leida
+            var imageId = await _context.FileToApis
                 .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-            if (image == null)
-            {
-                return null;
-            }
+            //kus asuvad failid, mida hakatakse kustutama
+            var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\" 
+                + imageId.ExistingFilePath;
 
-            string filePath = Path.Combine(
-                _webHost.ContentRootPath,
-                "wwwroot",
-                "multipleFileUpload",
-                image.ExistingFilePath ?? ""
-            );
-
+            //kui fail on olemas, siis kustuta see
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
 
-            _context.FileToApis.Remove(image);
-
+            _context.FileToApis.Remove(imageId);
             await _context.SaveChangesAsync();
 
-            return image;
+            return imageId;
         }
 
-        // REMOVE MULTIPLE IMAGES
         public async Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dto)
         {
-            List<FileToApi> removedImages = new();
-
-            foreach (var item in dto)
+            foreach (var image in dto)
             {
-                var image = await _context.FileToApis
-                    .FirstOrDefaultAsync(x => x.Id == item.Id);
+                var imageId = await _context.FileToApis
+                    .FirstOrDefaultAsync(x => x.Id == image.Id);
 
-                if (image == null)
-                {
-                    continue;
-                }
-
-                string filePath = Path.Combine(
-                    _webHost.ContentRootPath,
-                    "wwwroot",
-                    "multipleFileUpload",
-                    image.ExistingFilePath ?? ""
-                );
+                var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
+                    + imageId.ExistingFilePath;
 
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
                 }
-
-                _context.FileToApis.Remove(image);
-                removedImages.Add(image);
+                _context.FileToApis.Remove(imageId);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
+            return null;
+        }
 
-            return removedImages;
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            //toimub kontroll, kas vähemalt üks fail või mitu
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreachi, et mitu faili ülesse laadida
+                foreach(var file in dto.Files)
+                {
+                    //foreachi sees tuleb kasutada using-t
+                    using (var target = new MemoryStream())
+                    {
+                        //FileToDatabase
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            RealEstateId = domain.Id,
+                        };
+
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabases.Add(files);
+                    }
+                }
+            }
         }
     }
 }

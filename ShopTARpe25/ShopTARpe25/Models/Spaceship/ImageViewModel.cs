@@ -5,6 +5,5 @@
         public Guid ImageId { get; set; }
         public string? FilePath { get; set; }
         public Guid? SpaceshipId { get; set; }
-        public Guid? RealEstateId { get; internal set; }
     }
 }

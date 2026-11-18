@@ -1,84 +1,64 @@
 ﻿@model ShopTARpe25.Models.RealEstate.RealEstateDeleteViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
 
 <h1>Delete</h1>
 
-<h4>RealEstate</h4>
-<hr />
-
 <div>
+    <h4>RealEstate</h4>
+    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
+        <div class="form-group row">
+            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.Id)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Area)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="Area" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.Area)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="Address" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.Address)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomNumber)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="RoomNumber" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.RoomNumber)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BuildingType)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="BuildingType" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.BuildingType)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
+        </div>
+    </dl>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedAt)
-        </dt>
-        <dd class="col-sm-10">
+    <dl class="row">
+        <div class="form-group row">
+            <label asp-for="ModifiedAt" class="col-sm-2 col-form-label"></label>
             @Html.DisplayFor(model => model.ModifiedAt)
-        </dd>
+        </div>
     </dl>
 
     <hr />
-
-    <h5>Are you sure you want to delete this RealEstate?</h5>
-
-    <form asp-action="DeleteConfirmation"
-          asp-controller="RealEstate"
-          method="post">
-
+    <form asp-action="DeleteConfirmation">
         <input type="hidden" asp-for="Id" />
-
-        <input type="submit"
-               value="Delete"
-               class="btn btn-danger btn-lg" />
-
-        <a asp-action="Index"
-               asp-controller="RealEstate"
-               class="btn btn-primary btn-lg btn-outline-dark">
-            Back to list
-        </a>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index" asp-controller="realEstate" class="btn btn-success">Back</a>
     </form>
 </div>

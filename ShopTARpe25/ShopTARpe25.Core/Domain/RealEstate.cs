@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ShopTARpe25.Core.Domain
 {
@@ -12,6 +14,5 @@ namespace ShopTARpe25.Core.Domain
 
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
-
     }
 }
