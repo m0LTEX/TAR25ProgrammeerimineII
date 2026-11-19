@@ -57,26 +57,26 @@ else
             <input asp-for="Files" class="form-control" type="file" multiple />
         </div>
     </div>
-   
-        <div>
+
+    <div>
         @foreach (var images in Model.Image)
             {
                 <partial name="_Images" model="images" />
                 <input asp-action="removeImage" asp-controller="spaceship" asp-route-imageId="@images.ImageId"
                        type="submit" class="btn btn-danger" value="Remove Image" />
             }
-        </div>
-    
-        <hr />
+    </div>
 
-        @if (Model.Id.HasValue) 
-        {
-            <input asp-action="update" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Update" />
-        }
-        else
-        {
-            <input asp-action="create" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Create" />
-        }
+    <hr />
+
+    @if (Model.Id.HasValue)
+    {
+        <input asp-action="update" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Update" />
+    }
+    else
+    {
+        <input asp-action="create" asp-controller="spaceship" type="submit" class="btn btn-primary" value="Create" />
+    }
 
     <a asp-action="Index" asp-controller="spaceship" class="btn btn-secondary">Back to List</a>
 

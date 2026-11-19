@@ -31,6 +31,7 @@ namespace ShopTARpe25.Controllers
 
         public IActionResult Index()
         {
+            //loome vaheinstantsi domaini ja viewModeli vahel.
             var result = _context.Spaceships
                 .Select(x => new SpaceshipIndexViewModel
                 {
@@ -40,10 +41,9 @@ namespace ShopTARpe25.Controllers
                     BuiltDate = x.BuiltDate,
                     Crew = x.Crew,
                     EnginePower = x.EnginePower
-                })
-                .ToList();
+                });
 
-            return View("~/Views/Spaceship/Index.cshtml", result);
+            return View(result);
         }
 
         //kui kasutaja klikib "Create" nuppu, siis see meetod käivitatakse

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ShopTARpe25.Models.RealEstate.EstateIndexViewModel>
+﻿@model IEnumerable<ShopTARpe25.Models.RealEstate.RealEstateIndexViewModel>
 
 @{
     int rowNumber = 1;
@@ -16,10 +16,10 @@
         <thead>
             <tr>
                 <th scope="col">Nr</th>
+                <th scope="col">Id</th>
                 <th scope="col">Area</th>
-                <th scope="col">Address</th>
-                <th scope="col">Room number</th>
                 <th scope="col">Building Type</th>
+                <th scope="col">Room nr</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -28,14 +28,14 @@
             {
                 <tr>
                     <td>@rowNumber</td>
+                    <td>@realEstate.Id</td>
                     <td>@realEstate.Area</td>
-                    <td>@realEstate.Address</td>
-                    <td>@realEstate.RoomNumber</td>
                     <td>@realEstate.BuildingType</td>
+                    <td>@realEstate.RoomNumber</td>
                     <td>
-                        <a asp-action="details" asp-controller="RealEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-info">Details</a>
-                        <a asp-action="update" asp-controller="RealEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-success">Update</a>
-                        <a asp-action="delete" asp-controller="RealEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-danger">Delete</a>
+                        <a asp-action="details" asp-controller="realEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-info">Details</a>
+                        <a asp-action="update" asp-controller="realEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-success">Update</a>
+                        <a asp-action="delete" asp-controller="realEstate" asp-route-id="@realEstate.Id" type="submit" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 rowNumber++;
