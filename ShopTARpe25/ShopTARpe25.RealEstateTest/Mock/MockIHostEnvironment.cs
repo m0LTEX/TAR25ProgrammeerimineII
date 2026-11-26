@@ -3,11 +3,11 @@ using Microsoft.Extensions.Hosting;
 
 namespace ShopTARpe25.RealEstateTest.Mock
 {
-    public class MockIHostEnvironment: IHostEnvironment
+    public class MockIHostEnvironment : IHostEnvironment
     {
-        public string EnvironmentName { get; set; }
-        public string ApplicationName { get; set; }
-        public string ContentRootPath { get; set; }
-        public IFileProvider ContentRootFileProvider { get; set; }
+        public string EnvironmentName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string ContentRootPath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IFileProvider ContentRootFileProvider { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

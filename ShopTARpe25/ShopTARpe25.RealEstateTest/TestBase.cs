@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ShopTARpe25.ApplicationServices.Services;
 using ShopTARpe25.Core.ServiceInterface;
 using ShopTARpe25.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using ShopTARpe25.RealEstateTest.Macros;
-using Microsoft.Extensions.Hosting;
 using ShopTARpe25.RealEstateTest.Mock;
 
 
@@ -29,9 +29,9 @@ namespace ShopTARpe25.RealEstateTest
         public virtual void SetupServices(IServiceCollection services)
         {
             services.AddScoped<IRealEstateServices, RealEstateServices>();
-            //Miks pidi lisama kaks servic juurde, kuigi me tahame testida ainult Realestate CRUDi?
-            //Sest, et see oli seotud failide lisamisega ja failide lisamine omakorda oli
-            //seoses IHostEnvironmentiga
+            //miks pidi lisama kaks servict juurde, kuigi me tahame testida ainult Realestate CRUDi?
+            //sellepärast, et see oli seotud failide lisamisega ja failide lisamine omakorda oli seoses
+            //IHostEnvironmentiga
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<IHostEnvironment, MockIHostEnvironment>();
 
@@ -55,7 +55,7 @@ namespace ShopTARpe25.RealEstateTest
 
         }
 
-        //abimeetod, millega klass ja selle alamklassid saavad teenuse tööbi järgi küsida
+        //abimeetod, millega klass ja selle alamklassid saavad teenuse tüübi järgi küsida
         protected T Svc<T>()
         {
             //otsib teenusepakkuja tüüpi
