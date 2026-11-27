@@ -1,4 +1,6 @@
-﻿using ShopTARpe25.Core.Dto;
+﻿
+
+using ShopTARpe25.Core.Dto;
 using ShopTARpe25.Core.ServiceInterface;
 
 namespace ShopTARpe25.RealEstateTest
@@ -61,7 +63,6 @@ namespace ShopTARpe25.RealEstateTest
 
         //kustutamise meetotit on vaja testida. Andmebaasis on ankeet, mida 
         //tahan ära kustutada
-        //teha test korda
         [Fact]
         public async Task Should_DeleteByIdRealEstate_WhenDeleteRealEstate()
         {
@@ -78,16 +79,15 @@ namespace ShopTARpe25.RealEstateTest
             Assert.Equal(addRealEstate.Id, deleteRealEstate.Id);
         }
 
-        //Mul on kaks ankeeti loodud ja ühe kustutasin ära
+        //mul on kaks ankeeti loodud ja ühe kustutan ära
         //assertis võrdlen, kas need kaks on ühesugused
-
         [Fact]
         public async Task ShouldNot_DeleteByIdRealEstate_WhenDidNotDeleteRealestate()
         {
             //arrange
             var dto = MockRealEstateData();
 
-            //act
+            //act 
             var realEstate1 = await Svc<IRealEstateServices>().Create(dto);
             var realEstate2 = await Svc<IRealEstateServices>().Create(dto);
 
@@ -97,7 +97,7 @@ namespace ShopTARpe25.RealEstateTest
             Assert.NotEqual(realEstate1.Id, result.Id);
         }
 
-        //Uuenda andmeid
+        //uuendab andmeid
         [Fact]
         public async Task Should_UpdateRealEstate_WhenUpdateData()
         {
@@ -107,7 +107,6 @@ namespace ShopTARpe25.RealEstateTest
             RealEstateDto dto = MockRealEstateData();
 
             RealEstateDto domain = new();
-
 
             domain.Id = guid;
             domain.Area = 200.0;
@@ -124,9 +123,16 @@ namespace ShopTARpe25.RealEstateTest
             Assert.Equal(domain.Id, guid);
             Assert.NotEqual(dto.Area, domain.Area);
             Assert.NotEqual(dto.RoomNumber, domain.RoomNumber);
+            //Võrrelda RoomNumbrit ja kasutada DoesNotMatch
             //DoesNotMatch tahab string andmetüüpe
             Assert.DoesNotMatch(dto.RoomNumber.ToString(), domain.RoomNumber.ToString());
-            Assert.DoesNotMatch(dto.Address, domain.Address);
+            Assert.DoesNotMatch(dto.Address, domain.Address);          
+        }
+
+        [Fact]
+        public async Task Should_UpdateRealEstate_WhenUpdateDataVersion2()
+        {
+
         }
 
         private RealEstateDto MockRealEstateData()
